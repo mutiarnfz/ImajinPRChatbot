@@ -1,7 +1,7 @@
 import os
 
 PROJECT_ID = os.getenv("GENAI_PROJECT_ID", "")
-USE_VERTEXAI = True  # set False jika memakai Gemini Developer API (pakai API_KEY)
+USE_VERTEXAI = False  # set False jika memakai Gemini Developer API (pakai API_KEY)
 API_KEY = os.getenv("GENAI_API_KEY", "")  # dipakai hanya jika USE_VERTEXAI = False
 
 MODEL = os.getenv("GENAI_MODEL", "gemini-3.5-flash")  
