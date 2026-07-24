@@ -7,6 +7,8 @@ Skema data:
 
 from google.genai import types
 from pydantic import BaseModel, Field
+from datetime import datetime
+
 from config import LAYANAN
 
 
@@ -88,3 +90,53 @@ class ProfilRequest(BaseModel):
 
 class ProfilResponse(BaseModel):
     jawaban: str
+
+
+# =============================================================================
+# 3) Endpoint admin — riwayat percakapan (GET /admin/conversations...)
+# =============================================================================
+
+class MessageOut(BaseModel):
+    role: str
+    content: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class LayananLeadOut(BaseModel):
+    jenis_industri: str | None = None
+    tantangan_komunikasi: str | None = None
+    tujuan_bisnis: str | None = None
+    estimasi_anggaran: str | None = None
+    timeline: str | None = None
+    rekomendasi_layanan: list[str] | None = None
+    alasan_rekomendasi: str | None = None
+    prioritas_lead: str | None = None
+    catatan_untuk_bd: str | None = None
+
+    model_config = {"from_attributes": True}
+
+
+class ProfilQnaOut(BaseModel):
+    pertanyaan: str
+    jawaban: str
+
+    model_config = {"from_attributes": True}
+
+
+class ConversationSummary(BaseModel):
+    id: str
+    session_id: str | None = None
+    jenis: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class ConversationDetail(ConversationSummary):
+    messages: list[MessageOut] = []
+    layanan_lead: LayananLeadOut | None = None
+    profil_qna: ProfilQnaOut | None = None
+
+    model_config = {"from_attributes": True}
